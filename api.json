@@ -1,7 +1,7 @@
 {
     "openapi": "3.1.0",
     "info": {
-        "title": "Student API Docs",
+        "title": "School Management API",
         "version": "0.0.1",
         "description": "Student Management API for testing Scramble documentation."
     },
