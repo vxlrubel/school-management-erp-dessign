@@ -13,7 +13,7 @@ return new class extends Migration
             $table->foreignId('student_id')->constrained('students')->cascadeOnDelete();
             $table->foreignId('class_id')->constrained('classes')->cascadeOnDelete();
             $table->foreignId('section_id')->constrained('sections')->cascadeOnDelete();
-            $table->foreignId('session_id')->constrained('sessions')->cascadeOnDelete();
+            $table->foreignId('session_id')->constrained('academic_sessions')->cascadeOnDelete();
             $table->timestamps();
         });
     }

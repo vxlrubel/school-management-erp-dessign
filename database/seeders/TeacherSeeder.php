@@ -4,8 +4,6 @@ namespace Database\Seeders;
 
 use App\Enums\StatusType;
 use App\Enums\UserType;
-use App\Models\Classroom;
-use App\Models\ClassTeacher;
 use App\Models\Role;
 use App\Models\Teacher;
 use App\Models\User;
@@ -66,14 +64,6 @@ class TeacherSeeder extends Seeder
 
                     $teacherRole = Role::where('slug', 'teacher')->first();
                     $user->roles()->attach($teacherRole->id, ['school_id' => $schoolId]);
-
-                    $classrooms = Classroom::where('school_id', $schoolId)->get();
-                    foreach ($classrooms->random(rand(1, 3)) as $class) {
-                        ClassTeacher::firstOrCreate([
-                            'class_id' => $class->id,
-                            'teacher_id' => $teacher->id,
-                        ]);
-                    }
                 }
             }
         });

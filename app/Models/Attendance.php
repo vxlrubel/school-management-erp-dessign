@@ -11,6 +11,8 @@ class Attendance extends Model
 {
     use HasSchool, SoftDeletes;
 
+    protected $table = 'attendance';
+
     protected $fillable = [
         'school_id',
         'attendance_date',

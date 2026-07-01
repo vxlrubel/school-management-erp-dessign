@@ -12,7 +12,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('school_id')->constrained()->cascadeOnDelete();
             $table->string('title');
-            $table->foreignId('session_id')->constrained('sessions')->cascadeOnDelete();
+            $table->foreignId('session_id')->constrained('academic_sessions')->cascadeOnDelete();
             $table->timestamps();
             $table->softDeletes();
 

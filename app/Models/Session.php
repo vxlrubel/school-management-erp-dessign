@@ -11,6 +11,8 @@ class Session extends Model
 {
     use HasSchool, SoftDeletes;
 
+    protected $table = 'academic_sessions';
+
     protected $fillable = [
         'school_id',
         'name',

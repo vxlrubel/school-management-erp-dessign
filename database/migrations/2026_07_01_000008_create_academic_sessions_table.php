@@ -8,16 +8,18 @@ return new class extends Migration
 {
     public function up(): void
     {
-        Schema::create('alumni_event_registrations', function (Blueprint $table) {
+        Schema::create('academic_sessions', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('alumni_event_id')->constrained()->cascadeOnDelete();
-            $table->foreignId('alumni_id')->constrained()->cascadeOnDelete();
+            $table->foreignId('school_id')->constrained()->cascadeOnDelete();
+            $table->string('name');
+            $table->boolean('current')->default(false);
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 
     public function down(): void
     {
-        Schema::dropIfExists('alumni_event_registrations');
+        Schema::dropIfExists('academic_sessions');
     }
 };

@@ -17,7 +17,7 @@ class SchoolSeeder extends Seeder
                 'phone' => '+880-2-9661001',
                 'email' => 'info@isd.edu.bd',
                 'website' => 'https://isd.edu.bd',
-                'status' => true,
+                'status' => 'active',
                 'settings' => [
                     'timezone' => 'Asia/Dhaka',
                     'currency' => 'BDT',
@@ -34,7 +34,7 @@ class SchoolSeeder extends Seeder
                 'phone' => '+880-2-8412345',
                 'email' => 'contact@gva.edu.bd',
                 'website' => 'https://gva.edu.bd',
-                'status' => true,
+                'status' => 'active',
                 'settings' => [
                     'timezone' => 'Asia/Dhaka',
                     'currency' => 'BDT',

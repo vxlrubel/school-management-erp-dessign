@@ -12,6 +12,8 @@ class Alumni extends Model
 {
     use HasSchool, SoftDeletes;
 
+    protected $table = 'alumni';
+
     protected $fillable = [
         'school_id',
         'student_id',

@@ -12,10 +12,12 @@ use App\Models\StudentAcademic;
 use App\Models\StudentFee;
 use App\Models\StudentGuardian;
 use App\Models\StudentVaccine;
+use App\Models\Role;
 use App\Models\User;
 use App\Models\Vaccine;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
 
 class StudentSeeder extends Seeder
 {
@@ -56,10 +58,7 @@ class StudentSeeder extends Seeder
                 $sessions = Session::where('school_id', $schoolId)->get();
                 $currentSession = $sessions->firstWhere('current', true);
                 $vaccines = Vaccine::where('school_id', $schoolId)->get();
-
-                $users = User::where('school_id', $schoolId)
-                    ->where('user_type', UserType::Student)
-                    ->get();
+                $studentRole = Role::where('slug', 'student')->first();
 
                 for ($i = 0; $i < 50; $i++) {
                     $class = $classes->random();
@@ -78,9 +77,20 @@ class StudentSeeder extends Seeder
                         'religion' => $i % 5 === 0 ? 'Hinduism' : 'Islam',
                         'blood_group' => collect(['A+', 'A-', 'B+', 'B-', 'O+', 'O-', 'AB+', 'AB-'])->random(),
                         'mobile' => '+880-17'.str_pad($schoolId, 1, '0', STR_PAD_LEFT).rand(10000000, 99999999),
-                        'email' => strtolower(str_replace(['.', ' ', 'Md. ', 'Md '], '', $name)).$i.'@school.edu.bd',
+                        'email' => 'stu'.$schoolId.'_'.strtolower(str_replace(['.', ' ', 'Md. ', 'Md '], '', $name)).$i.'@school.edu.bd',
                         'status' => StatusType::Active->value,
                     ]);
+
+                    $user = User::create([
+                        'school_id' => $schoolId,
+                        'user_type' => UserType::Student,
+                        'name' => $name,
+                        'email' => 'stu'.$schoolId.'_'.strtolower(str_replace(['.', ' ', 'Md. ', 'Md '], '', $name)).$i.'@school.edu.bd',
+                        'phone' => '+880-17'.str_pad($schoolId, 1, '0', STR_PAD_LEFT).rand(50000000, 59999999),
+                        'password' => Hash::make('password'),
+                        'status' => StatusType::Active->value,
+                    ]);
+                    $user->roles()->attach($studentRole->id, ['school_id' => $schoolId]);
 
                     StudentGuardian::create([
                         'student_id' => $student->id,
@@ -111,12 +121,14 @@ class StudentSeeder extends Seeder
                         ]);
                     }
 
-                    foreach ($vaccines->random(rand(2, 4)) as $vaccine) {
-                        StudentVaccine::create([
-                            'student_id' => $student->id,
-                            'vaccine_id' => $vaccine->id,
-                            'date_given' => now()->subMonths(rand(1, 24)),
-                        ]);
+                    if ($vaccines->isNotEmpty()) {
+                        foreach ($vaccines->random(min(rand(2, 4), $vaccines->count())) as $vaccine) {
+                            StudentVaccine::create([
+                                'student_id' => $student->id,
+                                'vaccine_id' => $vaccine->id,
+                                'date_given' => now()->subMonths(rand(1, 24)),
+                            ]);
+                        }
                     }
                 }
             }

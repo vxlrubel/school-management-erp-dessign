@@ -18,10 +18,10 @@ class AttendanceSeeder extends Seeder
         DB::transaction(function () {
             foreach ([1, 2] as $schoolId) {
                 $statusDistribution = [
-                    AttendanceStatus::Present => 80,
-                    AttendanceStatus::Absent => 10,
-                    AttendanceStatus::Late => 5,
-                    AttendanceStatus::Leave => 5,
+                    AttendanceStatus::Present->value => 80,
+                    AttendanceStatus::Absent->value => 10,
+                    AttendanceStatus::Late->value => 5,
+                    AttendanceStatus::Leave->value => 5,
                 ];
 
                 $students = User::where('school_id', $schoolId)
@@ -60,7 +60,7 @@ class AttendanceSeeder extends Seeder
                         foreach ($attType['users'] as $userId) {
                             $roll = rand(1, 100);
                             $cumulative = 0;
-                            $selectedStatus = AttendanceStatus::Present;
+                            $selectedStatus = AttendanceStatus::Present->value;
                             foreach ($statusDistribution as $status => $weight) {
                                 $cumulative += $weight;
                                 if ($roll <= $cumulative) {
@@ -72,7 +72,7 @@ class AttendanceSeeder extends Seeder
                             $latitude = null;
                             $longitude = null;
                             $device = null;
-                            if ($selectedStatus === AttendanceStatus::Present || $selectedStatus === AttendanceStatus::Late) {
+                            if ($selectedStatus === AttendanceStatus::Present->value || $selectedStatus === AttendanceStatus::Late->value) {
                                 $latitude = 23.7800 + (rand(-100, 100) / 10000);
                                 $longitude = 90.3800 + (rand(-100, 100) / 10000);
                                 $device = 'Device-'.rand(1000, 9999);
@@ -81,7 +81,7 @@ class AttendanceSeeder extends Seeder
                             AttendanceRecord::create([
                                 'attendance_id' => $attendance->id,
                                 'user_id' => $userId,
-                                'status' => $selectedStatus->value,
+                                'status' => $selectedStatus,
                                 'latitude' => $latitude,
                                 'longitude' => $longitude,
                                 'device' => $device,

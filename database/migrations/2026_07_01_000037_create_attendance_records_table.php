@@ -10,7 +10,7 @@ return new class extends Migration
     {
         Schema::create('attendance_records', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('attendance_id')->constrained()->cascadeOnDelete();
+            $table->foreignId('attendance_id')->constrained('attendance')->cascadeOnDelete();
             $table->foreignId('user_id')->constrained()->cascadeOnDelete();
             $table->string('status');
             $table->decimal('latitude', 10, 7)->nullable();
