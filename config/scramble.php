@@ -50,11 +50,11 @@ return [
         /*
          * Description rendered on the home page of the API documentation (`/docs/api`).
          */
-        'description' => 'Student Management API for testing Scramble documentation.',
+        'description' => 'School Management API for testing Scramble documentation.',
     ],
 
     'ui' => [
-        'title' => 'Student API Docs',
+        'title' => 'School Management API',
     ],
 
     'renderer' => 'elements',
