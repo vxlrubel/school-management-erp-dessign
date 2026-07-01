@@ -2,33 +2,50 @@
 
 namespace App\Models;
 
+use App\Traits\HasSchool;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Carbon;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasOne;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
-/**
- * @property int $id
- * @property string $name
- * @property string $email
- * @property string|null $phone
- * @property string|null $address
- * @property string|null $date_of_birth
- * @property Carbon|null $created_at
- * @property Carbon|null $updated_at
- */
 class Student extends Model
 {
+    use HasSchool, SoftDeletes;
+
     protected $fillable = [
+        'school_id',
+        'admission_no',
+        'roll',
         'name',
+        'gender',
+        'dob',
+        'religion',
+        'blood_group',
+        'mobile',
         'email',
-        'phone',
-        'address',
-        'date_of_birth',
+        'photo',
+        'status',
     ];
 
     protected function casts(): array
     {
         return [
-            'date_of_birth' => 'date:Y-m-d',
+            'dob' => 'date:Y-m-d',
         ];
+    }
+
+    public function guardian(): HasOne
+    {
+        return $this->hasOne(StudentGuardian::class, 'student_id');
+    }
+
+    public function academic(): HasOne
+    {
+        return $this->hasOne(StudentAcademic::class, 'student_id');
+    }
+
+    public function school(): BelongsTo
+    {
+        return $this->belongsTo(School::class);
     }
 }
