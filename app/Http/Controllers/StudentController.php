@@ -39,7 +39,7 @@ class StudentController extends Controller
     {
         $validated = $request->validate([
             'name' => ['sometimes', 'string', 'max:255'],
-            'email' => ['sometimes', 'email', 'unique:students,email,' . $student->id],
+            'email' => ['sometimes', 'email', 'unique:students,email,'.$student->id],
             'phone' => ['nullable', 'string', 'max:20'],
             'address' => ['nullable', 'string', 'max:500'],
             'date_of_birth' => ['nullable', 'date', 'before:today'],
